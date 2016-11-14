@@ -1,0 +1,19 @@
+	使用反射。
+	MethodInfo.Invoke(object objectInstance,object[] acceptArgs);
+	MethodInfo=Type.GetMethod(string methodSignature,BindingFlags flags)/对于私有方法   flags = BindingFlags.NonPublic;如果是静态方法
+flags=BindingFlags.Static;flag特性通过按位或操作进行组合，如：BindingFlags.Static | BindingFlags.NonPublic。
+	
+	
+	
+	代码：
+	
+	public TOut InvokePrivateMethod<TIn,TOut>(T instance,string methodSignature,object[] arguments){
+		if(T==null)
+		return default(TOut);
+		var typeOfInstance=typeof(T);
+		var methodInfo=typeOfInstance.GetMethod(methodSignature,BindingFlags.Static | BindingFlags.NonPublic);
+		if(methodInfo==null)
+		return default(TOut);
+		var out = methodInfo.Invoke(instance,arguments);
+		return (TOut)out;
+	}
